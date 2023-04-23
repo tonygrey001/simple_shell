@@ -12,10 +12,10 @@ void prompt(char **av, char **env)
 
 {
 	char *string = NULL;
-	int l, status;
+	int l, m, status;
 	size_t n = 0;
 	ssize_t nchar;
-	char *argv[] = {NULL, NULL};
+	char *argv[10];
 	pid_t child_pid;
 
 	while (1)
@@ -36,7 +36,14 @@ void prompt(char **av, char **env)
 					string[l] =0;
 			l++;
 			}
-		argv[0] = string;
+		m = 0;
+		argv[m] = strtok(string, " ");
+		while (argv[m])
+		{
+			m++;
+			argv[m] = strtok(NULL, " ");
+		}
+
 		child_pid = fork();
 		if (child_pid == -1)
 		{

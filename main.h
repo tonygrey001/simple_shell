@@ -8,5 +8,6 @@
 #include <sys/wait.h>
 
 void prompt(char **av, char **env);
+char *strtok(char *str, const char *delim);
 
 #endif
