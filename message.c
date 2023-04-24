@@ -11,7 +11,7 @@
 void prompt(char **av, char **env)
 
 {
-	char *string = NULL;
+	char *string, *actual_command = NULL;
 	int l, m, status;
 	size_t n = 0;
 	ssize_t nchar;
@@ -29,11 +29,11 @@ void prompt(char **av, char **env)
 			exit(EXIT_FAILURE);
 		}
 
-		l =0;
+		l = 0;
 			while (string[l])
 			{
 				if (string[l] == '\n')
-					string[l] =0;
+					string[l] = 0;
 			l++;
 			}
 		m = 0;
@@ -43,19 +43,21 @@ void prompt(char **av, char **env)
 			m++;
 			argv[m] = strtok(NULL, " ");
 		}
+			string = argv[0];
+			actual_command = get_location(string);
 
-		child_pid = fork();
-		if (child_pid == -1)
-		{
+			child_pid = fork();
+			if (child_pid == -1)
+			{
 			free(string);
 			exit(EXIT_FAILURE);
-		}
+			}
+			if (child_pid == 0)
+			{
+			if (execve(actual_command, argv, env) == -1)
+			printf("%s : No such file or directory\n", av[0]);
+			}
 
-		if (child_pid == 0)
-		{
-			if (execve(argv[0], argv, env) == -1)
-				printf("%s : No such file or directory\n", av[0]);
-		}
 		else
 			wait(&status);
 	}
