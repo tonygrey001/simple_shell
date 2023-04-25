@@ -135,7 +135,7 @@ char *starts_with(const char *, const char *);
 /* toem_string1.c */
 char *_strcpy(char *, char *);
 char *_strdup(const char *);
-void puts(char *);
+void put(char *);
 int _putchar(char);
 
 /* toem_exits.c */
