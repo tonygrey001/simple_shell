@@ -70,6 +70,7 @@ typedef struct liststr
  * @line_count: error count
  * @err_num: error code for exit
  */
+
 typedef struct passinfo
 {
 	char *arg;
@@ -86,6 +87,7 @@ typedef struct passinfo
 	char **environ;
 	int env_changed;
 	int status;
+
 	char **cmd_buf;
 	int cmd_buf_type;
 	int readfd;
@@ -93,7 +95,8 @@ typedef struct passinfo
 } info_t;
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0, NULL, \0, 0, 0}
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0, NULL, \
+	0, 0, 0}
 
 /**
  * struct builtin - builtin string and related function
@@ -179,7 +182,7 @@ int _myalias(info_t *);
 /* toem_getline.c */
 ssize_t get_input(info_t *);
 int _getline(info_t *, char **, size_t *);
-void sigintHandeler(int);
+void sigintHandler(int);
 
 /* toem_getinfo.c */
 void clear_info(info_t *);
@@ -226,6 +229,7 @@ int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
 
+/* toem_message.c */
 void prompt(char **av, char **env);
 char *strtok(char *str, const char *delim);
 char *get_location(char *command);
