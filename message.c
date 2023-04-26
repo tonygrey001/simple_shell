@@ -9,7 +9,6 @@
  */
 
 void prompt(char **av, char **env)
-
 {
 	char *string, *actual_command = NULL;
 	int l, m, status;
@@ -28,7 +27,6 @@ void prompt(char **av, char **env)
 			free(string);
 			exit(EXIT_FAILURE);
 		}
-
 		l = 0;
 			while (string[l])
 			{
@@ -45,7 +43,6 @@ void prompt(char **av, char **env)
 		}
 			string = argv[0];
 			actual_command = get_location(string);
-
 			child_pid = fork();
 			if (child_pid == -1)
 			{
@@ -57,9 +54,7 @@ void prompt(char **av, char **env)
 			if (execve(actual_command, argv, env) == -1)
 			printf("%s : No such file or directory\n", av[0]);
 			}
-
 		else
 			wait(&status);
 	}
-
 }

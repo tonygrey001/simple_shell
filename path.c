@@ -3,7 +3,7 @@
  * get_location - a function that looks for the path of a command.
  * @string: pointer to the address of the command
  *
- * return: NULL
+ * Return: NULL
  */
 
 char *get_location(char *string)
@@ -13,13 +13,11 @@ char *get_location(char *string)
 	struct stat buffer;
 
 	path = getenv("PATH");
-
 	if (path)
 	{
 		path_copy = strdup(path);
 		command_length = strlen(string);
 		path_token = strtok(path_copy, ":");
-
 		while (path_token != NULL)
 		{
 			directory_length = strlen(path_token);
@@ -40,7 +38,6 @@ char *get_location(char *string)
 				path_token = strtok(NULL, ":");
 			}
 		}
-
 			free(path_copy);
 
 				if (stat(string, &buffer) == 0)
