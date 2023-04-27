@@ -12,6 +12,11 @@
 #include <fcntl.h>
 #include <errno.h>
 
+void prompt(char **av, char **env);
+char *strtok(char *str, const char *delim);
+char *get_location(char *command);
+void execmd(char **argv, char **env);
+
 /* for read, write buffers */
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
@@ -228,11 +233,5 @@ void check_chain(info_t *, char *, size_t *, size_t, size_t);
 int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
-
-/* toem_message.c */
-void prompt(char **av, char **env);
-char *strtok(char *str, const char *delim);
-char *get_location(char *command);
-
 
 #endif
