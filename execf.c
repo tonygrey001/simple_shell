@@ -2,7 +2,8 @@
 
 /**
 * exit_cmd - function that handles eexit shell
-* @commandline: tokenized command
+* @command: tokenized command
+* @line: tokenized command
 * @line: input read from stdin
 *
 * Return: void
