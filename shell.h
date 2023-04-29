@@ -37,11 +37,23 @@ char *find_path(void);
 
 void free_buffers(char **buf);
 
+/**
+ * struct builtin - contains builtin function
+ * @env: builtin command
+ * @exit: function
+ */
+
 struct builtin
 {
 	char *env;
 	char *exit;
 } builtin;
+
+/**
+ * struct info - contains arguments
+ * @final_exit: exit
+ * @ln_count: error line count
+ */
 
 struct info
 {
@@ -49,9 +61,14 @@ struct info
 	int ln_count;
 } info;
 
+/**
+ * struct flags - count line of input if on
+ * @interactive: checks shell mode
+ */
+
 struct flags
 {
 	bool interactive;
 } flags;
 
-#endif 
+#endif
