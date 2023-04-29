@@ -1,67 +1,50 @@
 #include "shell.h"
-
 /**
- * main - function that starts program execution.
- * @ac: arg count
- * @argv: arg vector
- * @env: environment variable
- * Return: 0(success) else 1
- */
+* main - function that starts the program
+* @ac: argument count
+* @av: argument vector
+* @envp: environment variable
+*
+* Return: 0
+*/
 
-int main(int ac, char **argv, char **env)
+int main(int ac, char **av, char *envp[])
 {
-
-	char *prompt = "cisfun$";
-	char *lineptr = NULL, *lineptr_copy = NULL;
-	size_t n = 0;
-	ssize_t n_chars;
-	const char *delim = " \n";
-	int n_tokens = 0;
-	char *token;
-	int i;
-	(void)ac;
-
-		while (1)
-	{
-	if (isatty(STDIN_FILENO))
-	printf("%s", prompt);
-	n_chars = getline(&lineptr, &n, stdin);
-	if (n_chars == -1)
-		{
-	printf("Exiting shell....\n");
+	char *line = NULL, *pathcommand = NULL, *path = NULL;
+	size_t bufsize = 0;
+	ssize_t linesize = 0;
+	char **command = NULL, **paths = NULL;
+	(void)envp, (void)av;
+	if (ac < 1)
 		return (-1);
-		}
-		lineptr_copy = malloc(sizeof(char) * n_chars);
-			if (lineptr_copy == NULL)
-				{
-				perror("tsh: memory allocation error");
-				return (-1);
-				}
-				strcpy(lineptr_copy, lineptr);
-				token = strtok(lineptr, delim);
-
-					while (token != NULL)
-				{
-					n_tokens++;
-					token = strtok(NULL, delim);
-				}
-					n_tokens++;
-
-					argv = malloc(sizeof(char *) * n_tokens);
-					token = strtok(lineptr_copy, delim);
-					for (i = 0; token != NULL; i++)
-				{
-				argv[i] = malloc(sizeof(char) * strlen(token));
-				strcpy(argv[i], token);
-
-				token = strtok(NULL, delim);
-				}
-				argv[i] = NULL;
-			execmd(argv, env);
+	signal(SIGINT, handle_signal);
+	while (1)
+	{
+		free_buffers(command);
+		free_buffers(paths);
+		free(pathcommand);
+		prompt_user();
+		linesize = getline(&line, &bufsize, stdin);
+		if (linesize < 0)
+			break;
+		info.ln_count++;
+		if (line[linesize - 1] == '\n')
+			line[linesize - 1] = '\0';
+		command = tokenizer(line);
+		if (command == NULL || *command == NULL || **command == '\0')
+			continue;
+		if (checker(command, line))
+			continue;
+		path = find_path();
+		paths = tokenizer(path);
+		pathcommand = test_path(paths, command[0]);
+		if (!pathcommand)
+			perror(av[0]);
+		else
+			execution(pathcommand, command);
 	}
-
-	free(lineptr_copy);
-	free(lineptr);
-
+	if (linesize < 0 && flags.interactive)
+		write(STDERR_FILENO, "\n", 1);
+	free(line);
 	return (0);
 }
