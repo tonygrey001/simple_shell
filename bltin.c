@@ -2,7 +2,8 @@
 
 /**
 * handle_builtin - function handles execution of builtins
-* @commandline: tokenized commands
+* @command: tokenized commands
+* @line: tokenized commands
 * @line: input read from stdin
 *
 * Return: 1 or 0
